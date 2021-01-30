@@ -86,8 +86,8 @@ def homo_kd(cfg: DictConfig):
             incr = cfg.samples_start if i == 0 else cfg.samples_test
             start_pos = end_pos
             start_neg = end_neg
-            end_pos = int(start_pos + incr * 0.5)
-            end_neg = int(start_neg + incr * 0.5)
+            end_pos = int(start_pos + incr * cfg.train_dist[i])
+            end_neg = int(start_neg + incr * (1-cfg.train_dist[i]))
 
             datas.append(sorted(samples_positive[start_pos:end_pos] + samples_negative[start_neg:end_neg],
                                 key=lambda k: random.random()))

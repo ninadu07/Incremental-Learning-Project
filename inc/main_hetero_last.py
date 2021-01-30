@@ -59,35 +59,35 @@ def hetero_last(cfg: DictConfig):
         incr = cfg.samples_test
         datas = []
 
-        end_pos = int(cfg.samples_start * 0.8)
-        end_neg = int(cfg.samples_start * 0.2)
+        end_pos = int(cfg.samples_start * cfg.train_dist[0])
+        end_neg = int(cfg.samples_start * (1-cfg.train_dist[0]))
         datas.append(sorted(
             samples_positive[0:end_pos] + samples_negative[0:end_neg],
             key=lambda k: random.random()))
 
         start_pos = end_pos
         start_neg = end_neg
-        end_pos = int(start_pos + incr * 0.5)
-        end_neg = int(start_neg + incr * 0.5)
+        end_pos = int(start_pos + incr * cfg.test_dist[0])
+        end_neg = int(start_neg + incr * (1-cfg.test_dist[0]))
 
         datas.append(sorted(samples_positive[start_pos:end_pos] + samples_negative[start_neg:end_neg],
                             key=lambda k: random.random()))
 
         # Following rounds on imbalanced train and balanced test
 
-        for i in range(cfg.rounds):
+        for i in range(1,cfg.rounds+1):
             start_pos = end_pos
             start_neg = end_neg
-            end_pos = int(start_pos + incr * 0.8)
-            end_neg = int(start_neg + incr * 0.2)
+            end_pos = int(start_pos + incr * cfg.train_dist[i])
+            end_neg = int(start_neg + incr * (1-cfg.train_dist[i]))
 
             datas.append(sorted(samples_positive[start_pos:end_pos] + samples_negative[start_neg:end_neg],
                                 key=lambda k: random.random()))
 
             start_pos = end_pos
             start_neg = end_neg
-            end_pos = int(start_pos + incr * 0.5)
-            end_neg = int(start_neg + incr * 0.5)
+            end_pos = int(start_pos + incr * cfg.test_dist[i])
+            end_neg = int(start_neg + incr * (1-cfg.test_dist[i]))
 
             datas.append(sorted(samples_positive[start_pos:end_pos] + samples_negative[start_neg:end_neg],
                                 key=lambda k: random.random()))

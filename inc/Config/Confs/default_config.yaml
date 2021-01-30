@@ -20,3 +20,5 @@ num_exp: 5
 rounds: 4
 samples_start: 10000
 samples_test: 10000
+train_dist: [0.8, 0.8, 0.8, 0.8, 0.8]
+test_dist: [0.5, 0.5, 0.5, 0.5, 0.5]
